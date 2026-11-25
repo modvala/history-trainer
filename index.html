@@ -318,6 +318,7 @@ function pick(n){
   P.weak=shuffle(P.weak).sort((a,b)=>(rank[a.w]-rank[b.w])||(a.last-b.last));
   P.check=shuffle(P.check).sort((a,b)=>a.last-b.last);
   P.learned=shuffle(P.learned);
+  P.fresh=shuffle(P.fresh);
   n=Math.min(n,byF.size);
   const nW=Math.round(n*.5),nC=Math.round(n*.3),nN=n-nW-nC;
   const nL=Math.min(P.learned.length,Math.max(n>=10?1:0,Math.round(nC/3)));
