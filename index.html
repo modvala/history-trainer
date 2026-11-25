@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="sr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Тренажёр по истории</title>
+<title>Вежбај историју</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Ruslan+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Kurale&display=swap" rel="stylesheet">
 <style>
 /* VOICE: a calm, friendly coach for a 12-year-old; no noise, big targets
    IDEA: a page of an old chronicle: lapis field, cinnabar initial, gold thread
    PICTURE: the question card itself, large, with big answer buttons
-   COLOUR and TYPE: lapis #21408f, white card, cinnabar #d4442a accent; Ruslan Display titles, Golos Text body
+   COLOUR and TYPE: lapis #21408f, white card, cinnabar #d4442a accent; Kurale titles, Golos Text body
    LAYOUT: one column up to 680px; lapis band with title, then card; phone-first */
 :root{color-scheme:light;--bg:#fff;--ink:#151a2e;--mute:#5b6280;--card:#fff;--line:#d8ddeb;--lapis:#21408f;--lapis2:#21408f;--cin:#d4442a;--gold:#e0a526;--ok:#18794a;--okbg:#e7f6ee;--bad:#b8341d;--badbg:#fdeeea;--warnbg:#fff5dc}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#0c1128;--ink:#eceff8;--mute:#a3abc8;--card:#141b3a;--line:#2b3566;--lapis2:#8ea8f3;--ok:#5ed39a;--okbg:#10301f;--bad:#ff9a85;--badbg:#3a1710;--warnbg:#3a2c08}}
@@ -21,7 +21,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Golos Text",
 .wrap{max-width:680px;margin:0 auto;padding-inline:max(4vw,16px)}
 .top{background:var(--lapis);color:#fff;padding-block:26px 30px;border-bottom:6px solid var(--cin);box-shadow:0 3px 0 var(--gold)}
 .top p{margin:0;opacity:.85;font-size:15px}
-h1{font-family:"Ruslan Display",Georgia,serif;font-weight:400;font-size:clamp(32px,7.5vw,48px);line-height:1.05;margin:6px 0 0;text-wrap:balance}
+h1{font-family:"Kurale",Georgia,serif;font-weight:400;font-size:clamp(32px,7.5vw,48px);line-height:1.05;margin:6px 0 0;text-wrap:balance}
 main{padding-block:26px 6px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,4.5vw,28px)}
 h2{font-size:22px;line-height:1.25;margin:0 0 14px}
@@ -62,7 +62,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px soli
 .story{line-height:1.6}
 .muted,.src{font-size:14px;color:var(--mute)}
 .link{background:none;border:0;color:var(--mute);text-decoration:underline;font:15px "Golos Text",sans-serif;min-height:44px;cursor:pointer;padding:0 4px}
-.score{font-family:"Ruslan Display",Georgia,serif;font-size:clamp(44px,13vw,64px);line-height:1;margin:6px 0 10px;color:var(--lapis2)}
+.score{font-family:"Kurale",Georgia,serif;font-size:clamp(44px,13vw,64px);line-height:1;margin:6px 0 10px;color:var(--lapis2)}
 .row{display:grid;gap:10px;margin-top:20px}
 ul{padding-left:20px;margin:6px 0}
 textarea,input[type=password],input[type=text]{width:100%;font:16px "Golos Text",sans-serif;padding:10px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
@@ -84,19 +84,19 @@ th{position:sticky;top:0;background:var(--card)}
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <p id="who">Древняя Русь · демо-вопросы</p>
-  <h1>Тренажёр по истории</h1>
+  <p id="who">6. разред · Рани средњи век</p>
+  <h1>Вежбај историју</h1>
 </div></header>
 
 <main class="wrap">
   <section id="home" class="screen card">
-    <h2>Сколько вопросов сегодня?</h2>
+    <h2>Колико питања данас?</h2>
     <div class="chips" id="chips">
       <button type="button" data-n="10" aria-pressed="true">10</button>
       <button type="button" data-n="20" aria-pressed="false">20</button>
       <button type="button" data-n="30" aria-pressed="false">30</button>
     </div>
-    <button type="button" id="start" class="primary">Начать тренировку</button>
+    <button type="button" id="start" class="primary" disabled>Почни вежбу</button>
     <div class="meter" id="meter" aria-hidden="true"></div>
     <div class="legend" id="legend"></div>
     <p class="note" id="bankline"></p>
@@ -109,23 +109,23 @@ th{position:sticky;top:0;background:var(--card)}
       <p id="qtext" class="qtext"></p>
       <div id="opts" class="opts"></div>
       <div id="unsureBox">
-        <button type="button" id="unsure" class="unsure" aria-pressed="false">Сомневаюсь</button>
-        <p class="hint">Отвечаешь наугад? Сначала нажми «Сомневаюсь», потом выбери ответ.</p>
+        <button type="button" id="unsure" class="unsure" aria-pressed="false">Нисам сигуран</button>
+        <p class="hint">Одговараш насумично? Прво притисни „Нисам сигуран“, па изабери одговор.</p>
       </div>
       <div id="fb" class="fb" hidden aria-live="polite"></div>
-      <button type="button" id="next" class="primary" hidden>Дальше</button>
+      <button type="button" id="next" class="primary" hidden>Даље</button>
     </div>
-    <p style="text-align:center;margin:10px 0 0"><button type="button" id="quit" class="link">Закончить сейчас</button></p>
+    <p style="text-align:center;margin:10px 0 0"><button type="button" id="quit" class="link">Заврши сада</button></p>
   </section>
 
   <section id="done" class="screen card" hidden>
-    <p class="note" style="margin:0">Итог тренировки</p>
+    <p class="note" style="margin:0">Резултат вежбе</p>
     <p id="score" class="score"></p>
     <p id="phrase" style="margin:0"></p>
     <div id="weakTopics"></div>
     <div class="row">
-      <button type="button" id="copyRes" class="primary">Скопировать результат для родителя</button>
-      <button type="button" id="again" class="secondary">Ещё тренировка</button>
+      <button type="button" id="copyRes" class="primary">Копирај резултат за родитеље</button>
+      <button type="button" id="again" class="secondary">Још једна вежба</button>
     </div>
     <p class="msg" id="sendMsg"></p>
     <p class="msg" id="copyMsg"></p>
@@ -134,11 +134,11 @@ th{position:sticky;top:0;background:var(--card)}
 
   <section id="parent" class="screen card" hidden>
     <form id="pinForm">
-      <h2>Для родителя</h2>
-      <p class="msg" style="margin:0 0 10px">Введите PIN-код.</p>
-      <input type="password" id="pin" inputmode="numeric" autocomplete="off" aria-label="PIN-код">
+      <h2>За родитеље</h2>
+      <p class="msg" style="margin:0 0 10px">Унесите PIN.</p>
+      <input type="password" id="pin" inputmode="numeric" autocomplete="off" aria-label="PIN">
       <p class="msg" id="pinMsg"></p>
-      <div class="btns"><button type="submit" class="primary small">Войти</button><button type="button" class="secondary small" data-home>Назад</button></div>
+      <div class="btns"><button type="submit" class="primary small">Уђи</button><button type="button" class="secondary small" data-home>Назад</button></div>
     </form>
     <div id="panel" hidden>
       <h2>Для родителя</h2>
@@ -169,273 +169,7 @@ th{position:sticky;top:0;background:var(--card)}
     </div>
   </section>
 </main>
-<footer class="wrap foot" id="foot"><button type="button" id="toParent" class="link">Для родителя</button></footer>
-
-<script type="text/plain" id="demo-bank">
-### Q001 | Факт F01 | Тема: Начало Руси | Уровень: 1
-Вопрос: В каком году, по летописи, в Новгород призвали князя Рюрика?
-А) 862
-Б) 882
-В) 907
-Г) 988
-Ответ: А
-Верно: Да, 862 год. С него летописец начинает историю княжеской власти на Руси.
-Если ошибся: Летопись рассказывает, что племена на севере постоянно ссорились и не могли решить, кто будет главным. Тогда они позвали правителя со стороны, варяга Рюрика. В 862 году он пришёл княжить в Новгород. А 882 год — это уже другое событие: тогда князь Олег захватил Киев. Запомни: сначала Рюрик на севере (862), через двадцать лет Олег на юге (882).
-Источник: Демо: призвание варягов
-
-### Q002 | Факт F01 | Тема: Начало Руси | Уровень: 1
-Вопрос: Что, по летописи, произошло в 862 году?
-А) Крещение Руси
-Б) Призвание Рюрика в Новгород
-В) Поход Олега на Царьград
-Г) Гибель князя Игоря
-Ответ: Б
-Верно: Верно! 862 год — призвание Рюрика, с него начинается летописная история Руси.
-Если ошибся: В 862 году северные племена, уставшие от ссор, позвали на княжение варяга Рюрика, и он стал править в Новгороде. Это самая ранняя дата в цепочке первых князей. Крещение Руси случилось гораздо позже, в 988 году, а поход Олега на Царьград — в 907-м. Запомни порядок: Рюрик — Олег — Игорь — Ольга — Святослав — Владимир.
-Источник: Демо: призвание варягов
-
-### Q003 | Факт F02 | Тема: Объединение Руси | Уровень: 1
-Вопрос: Какой князь в 882 году захватил Киев и объединил север и юг Руси?
-А) Рюрик
-Б) Игорь
-В) Олег
-Г) Святослав
-Ответ: В
-Верно: Да, это Олег. Он перенёс столицу в Киев.
-Если ошибся: После смерти Рюрика править стал Олег, потому что сын Рюрика Игорь был ещё маленьким. Олег с дружиной спустился по Днепру к Киеву, хитростью выманил киевских правителей Аскольда и Дира, убил их и сам сел княжить в Киеве. Так Новгород и Киев оказались под властью одного князя. Олег назвал Киев «матерью городов русских». Сам Рюрик до Киева так и не дошёл.
-Источник: Демо: князь Олег
-
-### Q004 | Факт F02 | Тема: Объединение Руси | Уровень: 2
-Вопрос: Почему 882 год считают началом единого Древнерусского государства?
-А) Князь Олег объединил Новгород и Киев под своей властью
-Б) Русь приняла христианство
-В) Был написан первый свод законов
-Г) Рюрика призвали в Новгород
-Ответ: А
-Верно: Точно. Два главных центра — Новгород и Киев — стали одной страной.
-Если ошибся: До 882 года на Руси было два отдельных центра: Новгород на севере и Киев на юге. Князь Олег пришёл из Новгорода, захватил Киев и стал править обоими городами сразу. Поэтому историки и считают 882 год началом единого государства со столицей в Киеве. Призвание Рюрика было раньше, в 862 году, а христианство пришло только в 988-м.
-Источник: Демо: князь Олег
-
-### Q005 | Факт F03 | Тема: Походы князей | Уровень: 1
-Вопрос: Куда в 907 году ходил в поход князь Олег и, по легенде, прибил свой щит на ворота?
-А) В Новгород
-Б) В Хазарский каганат
-В) В Киев
-Г) В Константинополь (Царьград)
-Ответ: Г
-Верно: Да, щит на воротах Царьграда — это Олег, 907 год.
-Если ошибся: Константинополь, который на Руси называли Царьградом, был столицей Византии — самого богатого государства того времени. В 907 году Олег пришёл к нему с большим войском, и византийцы согласились заключить выгодный для Руси договор: русские купцы получили право торговать там без пошлин. Легенда говорит, что в знак победы Олег прибил свой щит на ворота города. Хазар позже разгромил его внук Святослав.
-Источник: Демо: князь Олег
-
-### Q006 | Факт F04 | Тема: Первые князья | Уровень: 1
-Вопрос: Как погиб князь Игорь в 945 году?
-А) Утонул во время похода на Византию
-Б) Погиб в бою с печенегами
-В) Был убит древлянами, когда пришёл за данью второй раз
-Г) Умер от укуса змеи
-Ответ: В
-Верно: Верно. Жадность при сборе дани стоила Игорю жизни.
-Если ошибся: Князь каждый год объезжал подвластные племена и собирал с них дань — это называлось полюдьем. В 945 году Игорь собрал дань с древлян, но ему показалось мало, и он вернулся за добавкой с небольшим отрядом. Древляне решили: «Если повадится волк к овцам, то вынесет всё стадо», — и убили князя. Смерть от змеи — это легенда о князе Олеге, а с печенегами погиб Святослав.
-Источник: Демо: князь Игорь
-
-### Q007 | Факт F04 | Тема: Первые князья | Уровень: 2
-Вопрос: Почему древляне восстали против князя Игоря?
-А) Он хотел силой крестить их
-Б) Он пришёл собирать с них дань повторно, сверх обычного
-В) Он отказался защищать их от печенегов
-Г) Он перенёс столицу в Новгород
-Ответ: Б
-Верно: Да. Игорь вернулся за второй данью, и древляне этого не стерпели.
-Если ошибся: Дань тогда собирали без твёрдых правил: сколько князь возьмёт, столько и отдашь. Игорь уже получил дань с древлян, но вернулся за ней снова. Древляне поняли, что так он будет приходить бесконечно, и убили его. Крещение Руси было позже, при его внуке Владимире. Запомни: Игорь погиб из-за двойной дани, и поэтому его жена Ольга потом навела в сборе дани порядок.
-Источник: Демо: князь Игорь
-
-### Q008 | Факт F05 | Тема: Княгиня Ольга | Уровень: 2
-Вопрос: Что изменила княгиня Ольга после гибели Игоря?
-А) Установила точный размер дани (уроки) и места её сбора (погосты)
-Б) Приняла первый свод законов «Русская правда»
-В) Перенесла столицу во Владимир
-Г) Отменила дань совсем
-Ответ: А
-Верно: Верно, это первая реформа в истории Руси.
-Если ошибся: Ольга сначала жестоко отомстила древлянам за мужа, а потом задумалась, как не допустить новых восстаний. Она понимала: Игорь погиб, потому что размер дани никто не ограничивал. Ольга установила «уроки» — точный размер дани — и «погосты» — постоянные места, куда эту дань привозили. Сбор дани стал понятным и предсказуемым. А «Русскую правду» составили позже, при Ярославе Мудром.
-Источник: Демо: княгиня Ольга
-
-### Q009 | Факт F05 | Тема: Княгиня Ольга | Уровень: 1
-Вопрос: Как при княгине Ольге назывались постоянные места сбора дани?
-А) Вече
-Б) Посады
-В) Детинцы
-Г) Погосты
-Ответ: Г
-Верно: Да, погосты. А размер дани назывался «уроки».
-Если ошибся: После гибели Игоря Ольга навела порядок в сборе дани. Она определила, сколько платить, — это называлось «уроками», и где платить, — эти места назвали «погостами». Туда приезжали княжеские люди и забирали дань. Вече — это народное собрание, а детинец — крепость в центре города. Запомни пару: уроки — сколько, погосты — где.
-Источник: Демо: княгиня Ольга
-
-### Q010 | Факт F06 | Тема: Походы князей | Уровень: 2
-Вопрос: Какое сильное государство разгромил князь Святослав?
-А) Византию
-Б) Хазарский каганат
-В) Польшу
-Г) Золотую Орду
-Ответ: Б
-Верно: Да, в 965 году Святослав разгромил Хазарский каганат.
-Если ошибся: Святослав, сын Игоря и Ольги, почти всю жизнь провёл в походах. Летописец пишет, что он спал на конском потнике под открытым небом, а перед нападением честно предупреждал врагов: «Иду на вы». В 965 году он разгромил Хазарский каганат — сильное государство, которому раньше платили дань некоторые славянские племена. А Византию Святослав победить не смог, ему пришлось уйти. Золотая Орда появилась только через триста лет.
-Источник: Демо: князь Святослав
-
-### Q011 | Факт F07 | Тема: Крещение Руси | Уровень: 1
-Вопрос: В каком году произошло Крещение Руси?
-А) 862
-Б) 945
-В) 988
-Г) 1097
-Ответ: В
-Верно: Верно, 988 год, князь Владимир.
-Если ошибся: Князь Владимир Святославич долго выбирал веру для своей страны. По летописи, к нему приходили послы разных религий, а его собственные послы побывали в разных странах. Больше всего их поразила красота службы в храме Святой Софии в Константинополе. В 988 году Владимир крестился сам, а затем крестил киевлян в Днепре. Вместе с христианством на Русь пришли каменные храмы, книги и иконы. Запомни: 9-8-8, Владимир и Днепр.
-Источник: Демо: крещение Руси
-
-### Q012 | Факт F07 | Тема: Крещение Руси | Уровень: 1
-Вопрос: Какой князь крестил Русь?
-А) Ярослав Мудрый
-Б) Олег
-В) Святослав
-Г) Владимир Святославич
-Ответ: Г
-Верно: Да, Владимир. За это его называют Владимиром Святым.
-Если ошибся: Крестил Русь князь Владимир, сын Святослава и внук Ольги. Сама Ольга крестилась раньше, но вся страна приняла христианство только при Владимире, в 988 году. Его отец Святослав, наоборот, креститься отказался: боялся, что дружина будет над ним смеяться. Ярослав Мудрый — сын Владимира, он правил после него. Запомни цепочку: Ольга — бабушка, Святослав — отец, Владимир — креститель.
-Источник: Демо: крещение Руси
-
-### Q013 | Факт F08 | Тема: Князь Владимир | Уровень: 2
-Вопрос: От каких кочевников князь Владимир строил крепости на южной границе?
-А) От печенегов
-Б) От монголов
-В) От викингов
-Г) От половцев
-Ответ: А
-Верно: Верно, от печенегов. С этим временем связаны былины о богатырях.
-Если ошибся: При Владимире Руси больше всего угрожали печенеги — кочевники из южных степей. Они налетали внезапно, грабили сёла и уводили людей в плен. Чтобы защитить землю, Владимир построил на южной границе цепь крепостей и поселил в них лучших воинов. С этим временем связаны былины об Илье Муромце, Добрыне Никитиче и Алёше Поповиче. Половцы пришли в степи позже, а монголы — ещё через двести лет.
-Источник: Демо: князь Владимир
-
-### Q014 | Факт F09 | Тема: Ярослав Мудрый | Уровень: 1
-Вопрос: При каком князе появился первый свод законов «Русская правда»?
-А) При Олеге
-Б) При Ярославе Мудром
-В) При Игоре
-Г) При Рюрике
-Ответ: Б
-Верно: Да, при Ярославе Мудром.
-Если ошибся: Ярослава прозвали Мудрым, потому что он любил книги, открывал школы и наводил порядок в стране. Раньше споры решали по обычаям, а они в разных землях были разными. При Ярославе правила записали в единый свод законов — «Русскую правду». В нём, например, ограничили кровную месть, а за многие проступки назначили денежный штраф. Запомни: мудрый князь — значит, законы и книги.
-Источник: Демо: Ярослав Мудрый
-
-### Q015 | Факт F09 | Тема: Ярослав Мудрый | Уровень: 2
-Вопрос: Что такое «Русская правда»?
-А) Летопись о начале Руси
-Б) Договор Руси с Византией
-В) Первый свод законов Руси
-Г) Название дружины князя
-Ответ: В
-Верно: Верно, это первые записанные законы Руси, появились при Ярославе Мудром.
-Если ошибся: «Правдой» в Древней Руси называли закон, справедливый порядок. «Русская правда» — это первый письменный свод законов, его начали составлять при Ярославе Мудром. В нём было записано, как наказывать за кражу, драку или порчу чужого имущества. Летопись о начале Руси называется иначе — «Повесть временных лет». Запомни: правда — значит закон.
-Источник: Демо: Ярослав Мудрый
-
-### Q016 | Факт F10 | Тема: Культура Руси | Уровень: 2
-Вопрос: Какой знаменитый собор построили в Киеве при Ярославе Мудром?
-А) Храм Христа Спасителя
-Б) Исаакиевский собор
-В) Собор Василия Блаженного
-Г) Собор Святой Софии
-Ответ: Г
-Верно: Да, Софийский собор. Он стоит в Киеве до сих пор.
-Если ошибся: Ярослав хотел, чтобы Киев был не хуже Константинополя, где стоит знаменитый храм Святой Софии. Поэтому главный собор Киева тоже назвали Софийским — в честь Софии, Премудрости Божией. Внутри его украсили мозаиками и фресками, и он сохранился до наших дней. Собор Василия Блаженного и Исаакиевский собор построили на сотни лет позже, в Москве и Петербурге. Запомни: мудрый Ярослав и София — «премудрость».
-Источник: Демо: культура Руси
-
-### Q017 | Факт F11 | Тема: Понятия | Уровень: 1
-Вопрос: Что такое полюдье?
-А) Народное собрание в городе
-Б) Ежегодный объезд князем подвластных земель для сбора дани
-В) Отряд воинов князя
-Г) Праздник в честь урожая
-Ответ: Б
-Верно: Верно. «Полюдье» — от слов «ходить по людям».
-Если ошибся: Слово «полюдье» происходит от выражения «ходить по людям». Каждую зиму князь с дружиной объезжал подвластные племена и собирал дань: меха, мёд, воск. Весной собранное везли продавать, часто в Византию. Именно во время полюдья погиб князь Игорь. Отряд воинов князя называется дружиной, а народное собрание — вече.
-Источник: Демо: понятия
-
-### Q018 | Факт F11 | Тема: Понятия | Уровень: 1
-Вопрос: Как назывался ежегодный объезд князем земель для сбора дани?
-А) Вече
-Б) Погост
-В) Дружина
-Г) Полюдье
-Ответ: Г
-Верно: Да, полюдье.
-Если ошибся: Князь с дружиной каждую зиму ездил «по людям» — по подвластным племенам — и собирал дань. Поэтому такой объезд и назвали полюдьем. Погост — это место, куда дань привозили после реформы Ольги, а дружина — воины князя. Запомни: полюдье — князь едет к людям; погост — люди везут дань сами.
-Источник: Демо: понятия
-
-### Q019 | Факт F12 | Тема: Понятия | Уровень: 1
-Вопрос: Что такое вече?
-А) Народное собрание, где решали важные дела города
-Б) Налог, который платили князю
-В) Крепость на границе
-Г) Совет князя из знатных бояр
-Ответ: А
-Верно: Верно. Вече — собрание свободных жителей города.
-Если ошибся: Слово «вече» родственно слову «вещать» — говорить. На вече собирались свободные жители города: решали, воевать или мириться, могли позвать или прогнать князя. Сильнее всего вече было в Новгороде, там его созывали звоном вечевого колокола. Налог князю — это дань, а знатные советники князя — бояре. Запомни: вече — там, где вещают, то есть говорят.
-Источник: Демо: понятия
-
-### Q020 | Факт F13 | Тема: Начало Руси | Уровень: 2
-Вопрос: Какие земли соединял торговый путь «из варяг в греки»?
-А) Скандинавию и Византию
-Б) Новгород и Москву
-В) Киев и Хазарию
-Г) Персию и Китай
-Ответ: А
-Верно: Да: варяги — скандинавы, греки — жители Византии.
-Если ошибся: Варягами на Руси называли жителей Скандинавии, а греками — жителей Византии. Путь шёл от Балтийского моря по рекам и озёрам через Новгород, потом волоком к Днепру и вниз по Днепру через Киев до Чёрного моря и Константинополя. Вдоль этого пути и выросли главные города Руси. Москвы тогда ещё не было: её впервые упомянули в летописи только в 1147 году.
-Источник: Демо: путь из варяг в греки
-
-### Q021 | Факт F14 | Тема: Культура Руси | Уровень: 1
-Вопрос: Кто создал славянскую азбуку?
-А) Нестор и Никон
-Б) Князья Борис и Глеб
-В) Кирилл и Мефодий
-Г) Олег и Игорь
-Ответ: В
-Верно: Верно. Кириллица названа в честь Кирилла.
-Если ошибся: Братья Кирилл и Мефодий были учёными монахами из Византии, из города Солунь. Около 863 года они создали азбуку для славян, чтобы переводить церковные книги на понятный им язык. Наша кириллица названа в честь Кирилла. Борис и Глеб — первые русские святые, сыновья князя Владимира, а Нестор — летописец. Запомни: Кирилл — кириллица.
-Источник: Демо: культура Руси
-
-### Q022 | Факт F15 | Тема: Культура Руси | Уровень: 1
-Вопрос: Кто считается автором «Повести временных лет»?
-А) Ярослав Мудрый
-Б) Кирилл
-В) Княгиня Ольга
-Г) Монах Нестор
-Ответ: Г
-Верно: Да, Нестор-летописец из Киево-Печерского монастыря.
-Если ошибся: «Повесть временных лет» — главная летопись Древней Руси. Её составил около 1113 года монах Киево-Печерского монастыря Нестор. Он хотел ответить на вопрос, откуда пошла Русская земля, и записывал события по годам — «летам», отсюда и слово «летопись». Почти всё, что мы знаем о Рюрике, Олеге и Ольге, мы знаем именно из неё. Запомни: Нестор — летописец.
-Источник: Демо: культура Руси
-
-### Q023 | Факт F16 | Тема: Владимир Мономах | Уровень: 3
-Вопрос: Какое главное решение приняли князья на Любечском съезде в 1097 году?
-А) Крестить Русь
-Б) Перенести столицу в Новгород
-В) «Каждый да держит отчину свою» — каждый князь правит землёй своего отца
-Г) Платить дань половцам
-Ответ: В
-Верно: Верно. Князья договорились не отнимать друг у друга земли.
-Если ошибся: К концу XI века князья-родственники постоянно воевали друг с другом за города, а этим пользовались половцы и грабили Русь. По призыву Владимира Мономаха князья собрались в городе Любече, чтобы договориться о мире. Решили: «каждый да держит отчину свою» — то есть каждый правит землёй, доставшейся от отца, и не трогает чужую. Договор вскоре нарушили, но он показал: князья понимали, что ссоры ослабляют Русь.
-Источник: Демо: Владимир Мономах
-
-### Q024 | Факт F17 | Тема: Владимир Мономах | Уровень: 2
-Вопрос: Как называется сочинение, которое Владимир Мономах написал для своих детей?
-А) «Поучение»
-Б) «Русская правда»
-В) «Повесть временных лет»
-Г) «Слово о полку Игореве»
-Ответ: А
-Верно: Да, «Поучение» Владимира Мономаха.
-Если ошибся: Владимир Мономах был одним из самых уважаемых князей Руси. В старости он написал для сыновей «Поучение» — советы, как жить и править: не лениться, защищать слабых, не давать сильным обижать людей. Рассказал он и о своей жизни: только больших походов у него было 83. «Русская правда» — это законы, а «Повесть временных лет» — летопись Нестора.
-Источник: Демо: Владимир Мономах
-</script>
+<footer class="wrap foot" id="foot"><button type="button" id="toParent" class="link">За родитеље</button></footer>
 
 <script src="config.js"></script>
 <script>
@@ -481,9 +215,9 @@ function parseBank(text){
   return out;
 }
 
-const DEMO=$('#demo-bank').textContent;
-let isDemo=true,bankSource='demo';
-let bank=parseBank(DEMO);
+const KC='hq1.bankcache';
+let isDemo=false,bankSource='none';
+let bank=[];
 let st=loadState();
 if(!st.device){st.device=Math.random().toString(36).slice(2,8);save()}
 function loadState(){try{const o=JSON.parse(S.get(KS)||'null');if(o&&typeof o.q==='object')return Object.assign({sess:0,q:{},pin:'1234'},o)}catch(e){}return{sess:0,q:{},pin:'1234'}}
@@ -500,9 +234,11 @@ async function initBank(){
   if(local){const b=parseBank(local);if(b.length)return useBank(b,'local')}
   try{
     const r=await fetch('bank.md',{cache:'no-store'});
-    if(r.ok){const b=parseBank(await r.text());if(b.length)return useBank(b,'repo')}
+    if(r.ok){const t=await r.text();const b=parseBank(t);if(b.length){S.set(KC,t);return useBank(b,'repo')}}
   }catch(e){}
-  useBank(parseBank(DEMO),'demo');
+  const c=S.get(KC);
+  if(c){const b=parseBank(c);if(b.length)return useBank(b,'repo')}
+  bank=[];bankSource='none';
 }
 
 /* ---------- sending results ---------- */
@@ -522,9 +258,9 @@ async function flush(){
 async function sendResult(payload){
   if(!CFG.resultsUrl){$('#sendMsg').textContent='';return}
   const box=outbox();box.push(payload);S.set(KO,JSON.stringify(box.slice(-50)));
-  $('#sendMsg').textContent='Отправляю результат родителю…';
+  $('#sendMsg').textContent='Шаљем резултат родитељима…';
   const ok=await flush();
-  $('#sendMsg').textContent=ok?'Результат отправлен родителю.':'Нет связи: результат отправится автоматически при следующем открытии.';
+  $('#sendMsg').textContent=ok?'Резултат је послат родитељима.':'Нема интернета: резултат ће бити послат сам када поново отвориш страницу.';
 }
 addEventListener('online',flush);
 
@@ -588,8 +324,9 @@ function show(id){
   window.scrollTo(0,0);
 }
 let N=10;
-function legendHTML(c){
-  return [['learned','Выучено'],['work','Повторяем'],['weak','Слабые места'],['new','Новые']]
+let loading=true;
+function legendHTML(c,ru){
+  return (ru?[['learned','Выучено'],['work','Повторяем'],['weak','Слабые места'],['new','Новые']]:[['learned','Научено'],['work','Понављамо'],['weak','Слаба места'],['new','Нова']])
     .map(([k,t])=>`<span><i class="dot ${k}"></i>${t} <b>${c[k]}</b></span>`).join('');
 }
 function renderHome(){
@@ -597,8 +334,8 @@ function renderHome(){
   $('#meter').innerHTML=['learned','work','weak'].map(k=>`<i class="seg ${k}" style="width:${c[k]/t*100}%"></i>`).join('');
   $('#legend').innerHTML=legendHTML(c);
   const facts=new Set(bank.map(q=>q.fact)).size;
-  $('#who').textContent=isDemo?'Древняя Русь · демо-вопросы':`Вопросов в банке: ${bank.length}`;
-  $('#bankline').textContent=(isDemo?`Это демо: ${bank.length} вопросов по Древней Руси. `:'')+(N>facts?`В банке ${facts} разных фактов, поэтому в тренировке будет не больше ${facts} вопросов, плюс повторы ошибок.`:'');
+  $('#start').disabled=!bank.length;
+  $('#bankline').textContent=!bank.length?(loading?'Учитавам питања…':'Не могу да учитам питања. Провери интернет и освежи страницу.'):`Питања у бази: ${bank.length}.`+(N>facts?` Различитих чињеница има ${facts}, па ће вежба имати највише ${facts} питања, плус понављање грешака.`:'');
   for(const b of $$('#chips button'))b.setAttribute('aria-pressed',String(+b.dataset.n===N));
 }
 $('#chips').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;N=+b.dataset.n;renderHome()});
@@ -614,8 +351,8 @@ function startSession(){
 }
 function renderQ(){
   const it=Q[qi],q=it.q;answered=false;unsure=false;
-  $('#qnum').textContent=`Вопрос ${qi+1} из ${Q.length}`;
-  $('#qtopic').textContent=q.topic+(it.re?' · повтор':'');
+  $('#qnum').textContent=`Питање ${qi+1} од ${Q.length}`;
+  $('#qtopic').textContent=q.topic+(it.re?' · понављање':'');
   $('#bar').style.width=(qi/Q.length*100)+'%';
   $('#qtext').textContent=q.text;
   it.keys=shuffle(Object.keys(q.opts));
@@ -634,13 +371,13 @@ function answer(k){
   $('#unsureBox').hidden=true;
   const L=LET[it.keys.indexOf(q.ans)];
   let h;
-  if(r==='c')h=`<p class="verdict">Верно!</p>${q.ok?`<p>${esc(q.ok)}</p>`:''}`;
-  else if(r==='u')h=`<p class="verdict">Верно, хотя и с сомнением</p>${q.ok?`<p>${esc(q.ok)}</p>`:''}<p class="muted">Этот вопрос ещё вернётся. Вот как это запомнить:</p><p class="story">${esc(q.why)}</p>`;
-  else h=`<p class="verdict">Не совсем. Правильный ответ ${L}: ${esc(q.opts[q.ans])}</p><p class="story">${esc(q.why)}</p>`;
-  if(r!=='c'&&q.src)h+=`<p class="src">Где перечитать: ${esc(q.src)}</p>`;
+  if(r==='c')h=`<p class="verdict">Тачно!</p>${q.ok?`<p>${esc(q.ok)}</p>`:''}`;
+  else if(r==='u')h=`<p class="verdict">Тачно, али уз сумњу</p>${q.ok?`<p>${esc(q.ok)}</p>`:''}<p class="muted">Ово питање ће се вратити. Ево како да запамтиш:</p><p class="story">${esc(q.why)}</p>`;
+  else h=`<p class="verdict">Није тачно. Тачан одговор је ${L}: ${esc(q.opts[q.ans])}</p><p class="story">${esc(q.why)}</p>`;
+  if(r!=='c'&&q.src)h+=`<p class="src">Прочитај поново: ${esc(q.src)}</p>`;
   const fb=$('#fb');fb.innerHTML=h;fb.className='fb '+(r==='w'?'bad':'good');fb.hidden=false;
   if(r!=='c')reinsert(q);
-  const nx=$('#next');nx.textContent=qi+1<Q.length?'Дальше':'Посмотреть итог';nx.hidden=false;
+  const nx=$('#next');nx.textContent=qi+1<Q.length?'Даље':'Погледај резултат';nx.hidden=false;
   fb.scrollIntoView({behavior:smooth(),block:'nearest'});
 }
 function reinsert(q){
@@ -658,10 +395,10 @@ let lastReport='';
 function finish(){
   const total=res.length,good=res.filter(x=>x.r!=='w').length,uns=res.filter(x=>x.r==='u').length;
   const weakT=[...new Set(res.filter(x=>x.r!=='c').map(x=>x.q.topic))];
-  $('#score').textContent=`${good} из ${total}`;
+  $('#score').textContent=`${good} од ${total}`;
   const p=total?good/total:0;
-  $('#phrase').textContent=(p>=.9?'Отличный результат.':p>=.7?'Хорошо, большая часть верно.':p>=.5?'Неплохо, есть что подтянуть.':'Ничего страшного: ошибки — это то, что мы и тренируем.')+(uns?` Ответов с сомнением: ${uns}, они ещё вернутся.`:'');
-  $('#weakTopics').innerHTML=weakT.length?`<h3>Стоит повторить</h3><ul>${weakT.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:'<p class="msg">Ошибок и сомнений нет.</p>';
+  $('#phrase').textContent=(p>=.9?'Одличан резултат.':p>=.7?'Добро, већина одговора је тачна.':p>=.5?'Није лоше, има шта да се утврди.':'Нема везе: управо грешке и вежбамо.')+(uns?` Одговора уз сумњу: ${uns}, та питања ће се вратити.`:'');
+  $('#weakTopics').innerHTML=weakT.length?`<h3>Треба поновити</h3><ul>${weakT.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:'<p class="msg">Нема грешака ни сумњи.</p>';
   lastReport=report(good,total,uns,weakT);
   $('#copyMsg').textContent='';$('#resFallback').hidden=true;
   show('done');
@@ -685,20 +422,20 @@ function report(good,total,uns,weakT){
     weakT.length?`Повторить: ${weakT.join(', ')}`:'',
     '',progressBlock()].filter((l,i)=>l!==''||i===4).join('\n');
 }
-async function copyText(text,msgEl,fallback){
-  try{await navigator.clipboard.writeText(text);msgEl.textContent='Скопировано. Вставьте в сообщение.'}
-  catch(e){if(fallback){fallback.hidden=false;fallback.value=text;fallback.focus();fallback.select()}msgEl.textContent='Не удалось скопировать автоматически: выделите текст и скопируйте вручную.'}
+async function copyText(text,msgEl,fallback,sr){
+  try{await navigator.clipboard.writeText(text);msgEl.textContent=sr?'Копирано. Налепи у поруку.':'Скопировано. Вставьте в сообщение.'}
+  catch(e){if(fallback){fallback.hidden=false;fallback.value=text;fallback.focus();fallback.select()}msgEl.textContent=sr?'Копирање није успело: означи текст и копирај га ручно.':'Не удалось скопировать автоматически: выделите текст и скопируйте вручную.'}
 }
-$('#copyRes').addEventListener('click',()=>copyText(lastReport,$('#copyMsg'),$('#resFallback')));
+$('#copyRes').addEventListener('click',()=>copyText(lastReport,$('#copyMsg'),$('#resFallback'),true));
 $('#again').addEventListener('click',()=>{renderHome();show('home')});
 $('#start').addEventListener('click',startSession);
 
 /* ---------- parent ---------- */
 $('#toParent').addEventListener('click',()=>{$('#pinForm').hidden=false;$('#panel').hidden=true;$('#pin').value='';$('#pinMsg').textContent='';show('parent');$('#pin').focus()});
 for(const b of $$('[data-home]'))b.addEventListener('click',()=>{renderHome();show('home')});
-$('#pinForm').addEventListener('submit',e=>{e.preventDefault();if($('#pin').value===String(st.pin)){$('#pinForm').hidden=true;$('#panel').hidden=false;renderPanel()}else $('#pinMsg').textContent='Неверный PIN.'});
+$('#pinForm').addEventListener('submit',e=>{e.preventDefault();if($('#pin').value===String(st.pin)){$('#pinForm').hidden=true;$('#panel').hidden=false;renderPanel()}else $('#pinMsg').textContent='Погрешан PIN.'});
 function renderPanel(){
-  $('#pLegend').innerHTML=legendHTML(counts())+`<span>Тренировок <b>${st.sess}</b></span>`;
+  $('#pLegend').innerHTML=legendHTML(counts(),true)+`<span>Тренировок <b>${st.sess}</b></span>`;
   const mark={c:'+',u:'?',w:'−'};
   $('#ptable').innerHTML=bank.map(q=>{const r=st.q[q.id];return `<tr><td>${esc(q.id)}</td><td>${esc(q.topic)}</td><td>${esc(q.text)}</td><td>${SL[status(q.id)]}</td><td>${r?esc([...r.h].map(c=>mark[c]||'').join(' ')):''}</td></tr>`}).join('');
   $('#demoBank').hidden=bankSource!=='local';
@@ -714,7 +451,7 @@ $('#loadBank').addEventListener('click',()=>{
   $('#bankMsg').textContent=`Загружено вопросов: ${parsed.length}.`+(heads>parsed.length?` Пропущено с ошибками формата: ${heads-parsed.length}.`:'');
   renderPanel();
 });
-$('#demoBank').addEventListener('click',async()=>{S.del(KB);await initBank();$('#bankMsg').textContent=`Вернул банк по умолчанию: ${bankSource==='repo'?'файл bank.md с сайта':'демо-вопросы'}.`;renderPanel()});
+$('#demoBank').addEventListener('click',async()=>{S.del(KB);await initBank();$('#bankMsg').textContent=bank.length?`Вернул банк с сайта (bank.md): ${bank.length} вопросов.`:'Не удалось загрузить bank.md с сайта.';renderPanel()});
 $('#backup').addEventListener('click',()=>copyText(JSON.stringify(st),$('#progMsg'),$('#restoreIn')));
 $('#reset').addEventListener('click',()=>{$('#resetAsk').hidden=false});
 $('#resetNo').addEventListener('click',()=>{$('#resetAsk').hidden=true});
@@ -726,7 +463,7 @@ $('#restore').addEventListener('click',()=>{
 $('#setPin').addEventListener('click',()=>{const v=$('#newPin').value.trim();if(v.length<4){$('#pinSetMsg').textContent='Минимум 4 символа.';return}st.pin=v;save();$('#newPin').value='';$('#pinSetMsg').textContent='PIN сохранён.'});
 
 renderHome();
-initBank().then(()=>{renderHome();flush()});
+initBank().then(()=>{loading=false;renderHome();flush()});
 }
 </script>
 </body>
