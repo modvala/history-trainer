@@ -12,7 +12,18 @@ const SEND_EMAIL = true;            // письмо после каждой тр
 const APPEND_MD = true;             // дописывать MD-файл на Google Диске
 const MD_NAME = 'История — результаты.md';
 
+// Запустите один раз из редактора: Google попросит разрешения и пришлёт тестовое письмо.
+function setup() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  sheet_(ss, 'Сессии', ['Дата', 'Устройство', 'Тренировка №', 'Верно', 'Всего', 'С сомнением', 'Повторить', 'ID']);
+  if (SEND_EMAIL) MailApp.sendEmail(EMAIL || Session.getEffectiveUser().getEmail(),
+    'История: тестовое письмо', 'Скрипт настроен. Таблица: ' + ss.getUrl());
+  if (APPEND_MD) appendMd_(new Date(), 'Тест: скрипт настроен.');
+}
+
+// doPost вызывает сайт сам. Запускать его из редактора не нужно.
 function doPost(e) {
+  if (!e || !e.postData) throw new Error('doPost вызывается сайтом. Из редактора запускайте функцию setup.');
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
@@ -56,15 +67,6 @@ function doPost(e) {
 
 // Открыть адрес веб-приложения в браузере: должно показать «работает».
 function doGet() { return out_('работает'); }
-
-// Запустите один раз из редактора: Google попросит разрешения и пришлёт тестовое письмо.
-function setup() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  sheet_(ss, 'Сессии', ['Дата', 'Устройство', 'Тренировка №', 'Верно', 'Всего', 'С сомнением', 'Повторить', 'ID']);
-  if (SEND_EMAIL) MailApp.sendEmail(EMAIL || Session.getEffectiveUser().getEmail(),
-    'История: тестовое письмо', 'Скрипт настроен. Таблица: ' + ss.getUrl());
-  if (APPEND_MD) appendMd_(new Date(), 'Тест: скрипт настроен.');
-}
 
 function appendMd_(when, text) {
   const files = DriveApp.getFilesByName(MD_NAME);
