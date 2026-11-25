@@ -320,12 +320,20 @@ function pick(n){
   P.learned=shuffle(P.learned);
   P.fresh=shuffle(P.fresh);
   n=Math.min(n,byF.size);
-  const nW=Math.round(n*.5),nC=Math.round(n*.3),nN=n-nW-nC;
-  const nL=Math.min(P.learned.length,Math.max(n>=10?1:0,Math.round(nC/3)));
   const out=[];
   const take=(a,k)=>{while(k-->0&&a.length)out.push(a.shift())};
-  take(P.weak,nW);take(P.learned,nL);take(P.check,nC-nL);take(P.fresh,nN);
-  for(const a of [P.weak,P.check,P.fresh,P.learned])take(a,n-out.length);
+  if(P.fresh.length){
+    /* пока есть новые: ~20% повтор (сначала ошибки и «?», потом перепроверка), остальные новые */
+    const nOld=Math.round(n*.2);
+    take(P.weak,nOld);take(P.check,nOld-out.length);
+    take(P.fresh,n-out.length);
+    for(const a of [P.weak,P.check,P.learned])take(a,n-out.length);
+  }else{
+    /* новых не осталось: невыученные (~60% слабые, остальное перепроверка) и иногда один выученный */
+    const nL=Math.min(P.learned.length,n>=10?1:0);
+    take(P.weak,Math.round((n-nL)*.6));take(P.learned,nL);take(P.check,n-out.length);
+    for(const a of [P.weak,P.learned])take(a,n-out.length);
+  }
   return arrange(out.map(x=>x.q));
 }
 function arrange(list){
