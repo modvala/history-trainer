@@ -89,7 +89,18 @@ th{position:sticky;top:0;background:var(--card)}
 </div></header>
 
 <main class="wrap">
+  <section id="nameScr" class="screen card" hidden>
+    <form id="nameForm">
+      <h2>Како се зовеш?</h2>
+      <p class="msg" style="margin:0 0 10px">Име ће бити у резултатима које добијају родитељи.</p>
+      <input type="text" id="nameIn" maxlength="30" autocomplete="given-name" aria-label="Име">
+      <p class="msg" id="nameMsg"></p>
+      <div class="btns"><button type="submit" class="primary small">Настави</button></div>
+    </form>
+  </section>
+
   <section id="home" class="screen card">
+    <p class="note" style="margin:0 0 12px"><span id="hello"></span> <button type="button" id="changeName" class="link">Ниси ти?</button></p>
     <h2>Колико питања данас?</h2>
     <div class="chips" id="chips">
       <button type="button" data-n="10" aria-pressed="true">10</button>
@@ -184,7 +195,7 @@ const S={
   set(k,v){mem[k]=v;try{localStorage.setItem(k,v)}catch(e){}},
   del(k){delete mem[k];try{localStorage.removeItem(k)}catch(e){}}
 };
-const KS='hq1.state',KB='hq1.bank';
+const KS='hq1.state',KB='hq1.bank',KN='hq1.name',KD='hq1.device',KP='hq1.pin';
 const LET='АБВГ';
 const LAT={A:'А',B:'В'};
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
@@ -218,17 +229,22 @@ function parseBank(text){
 const KC='hq1.bankcache';
 let isDemo=false,bankSource='none';
 let bank=[];
-let st=loadState();
-if(!st.device){st.device=Math.random().toString(36).slice(2,8);save()}
-function loadState(){try{const o=JSON.parse(S.get(KS)||'null');if(o&&typeof o.q==='object')return Object.assign({sess:0,q:{},pin:'1234'},o)}catch(e){}return{sess:0,q:{},pin:'1234'}}
-function save(){S.set(KS,JSON.stringify(st))}
+let NAME=S.get(KN)||'';
+let DEVICE=S.get(KD);if(!DEVICE){DEVICE=Math.random().toString(36).slice(2,8);S.set(KD,DEVICE)}
+let PIN=S.get(KP)||'1234';
+const sKey=()=>KS+'.'+NAME.toLowerCase();
+function loadState(){try{const o=JSON.parse(S.get(sKey())||'null');if(o&&typeof o.q==='object')return Object.assign({sess:0,q:{}},o)}catch(e){}return{sess:0,q:{}}}
+let st=NAME?loadState():{sess:0,q:{}};
+function save(){if(NAME)S.set(sKey(),JSON.stringify(st))}
 const bankKey=b=>b.slice(0,3).map(q=>q.id+q.text).join('|');
-function useBank(b,src){
-  bank=b;bankSource=src;isDemo=src==='demo';
-  const key=bankKey(b);
+function syncKey(){
+  if(!bank.length)return;
+  const key=bankKey(bank);
   if(st.bankKey&&st.bankKey!==key)st.q={};
   st.bankKey=key;save();
 }
+function useBank(b,src){bank=b;bankSource=src;isDemo=src==='demo';syncKey()}
+function setName(n){NAME=n;S.set(KN,n);st=loadState();syncKey();renderHome();show('home')}
 async function initBank(){
   const local=S.get(KB);
   if(local){const b=parseBank(local);if(b.length)return useBank(b,'local')}
@@ -320,7 +336,7 @@ function arrange(list){
 /* ---------- screens ---------- */
 function show(id){
   for(const s of $$('.screen'))s.hidden=s.id!==id;
-  $('#foot').hidden=id==='quiz'||id==='parent';
+  $('#foot').hidden=!(id==='home'||id==='done');
   window.scrollTo(0,0);
 }
 let N=10;
@@ -335,6 +351,7 @@ function renderHome(){
   $('#legend').innerHTML=legendHTML(c);
   const facts=new Set(bank.map(q=>q.fact)).size;
   $('#start').disabled=!bank.length;
+  $('#hello').textContent=NAME?`Здраво, ${NAME}!`:'';
   $('#bankline').textContent=!bank.length?(loading?'Учитавам питања…':'Не могу да учитам питања. Провери интернет и освежи страницу.'):`Питања у бази: ${bank.length}.`+(N>facts?` Различитих чињеница има ${facts}, па ће вежба имати највише ${facts} питања, плус понављање грешака.`:'');
   for(const b of $$('#chips button'))b.setAttribute('aria-pressed',String(+b.dataset.n===N));
 }
@@ -403,7 +420,7 @@ function finish(){
   $('#copyMsg').textContent='';$('#resFallback').hidden=true;
   show('done');
   const RL={c:'верно',u:'верно с сомнением',w:'ошибка'};
-  sendResult({token:CFG.token||'',sentAt:new Date().toISOString(),device:st.device,session:st.sess,bank:bankSource,
+  sendResult({token:CFG.token||'',sentAt:new Date().toISOString(),name:NAME,device:DEVICE,session:st.sess,bank:bankSource,
     good,total,unsure:uns,weakTopics:weakT,
     answers:res.map(x=>({id:x.q.id,fact:x.q.fact,topic:x.q.topic,question:x.q.text,result:RL[x.r],chosen:x.chosen,correct:x.q.opts[x.q.ans],repeat:!!x.re})),
     report:lastReport,progress:progressBlock()});
@@ -416,7 +433,7 @@ function progressBlock(){
 }
 function report(good,total,uns,weakT){
   const wr=res.filter(x=>x.r==='w');
-  return [`История: тренировка ${new Date().toLocaleDateString('ru-RU')}`,
+  return [`История — ${NAME}: тренировка ${new Date().toLocaleDateString('ru-RU')}`,
     `Правильно: ${good} из ${total}${uns?`, из них с сомнением: ${uns}`:''}`,
     wr.length?'Ошибки:\n'+[...new Map(wr.map(x=>[x.q.id,x.q])).values()].map(q=>`- ${q.id} (${q.topic}): ${q.text}`).join('\n'):'Ошибок нет',
     weakT.length?`Повторить: ${weakT.join(', ')}`:'',
@@ -433,9 +450,9 @@ $('#start').addEventListener('click',startSession);
 /* ---------- parent ---------- */
 $('#toParent').addEventListener('click',()=>{$('#pinForm').hidden=false;$('#panel').hidden=true;$('#pin').value='';$('#pinMsg').textContent='';show('parent');$('#pin').focus()});
 for(const b of $$('[data-home]'))b.addEventListener('click',()=>{renderHome();show('home')});
-$('#pinForm').addEventListener('submit',e=>{e.preventDefault();if($('#pin').value===String(st.pin)){$('#pinForm').hidden=true;$('#panel').hidden=false;renderPanel()}else $('#pinMsg').textContent='Погрешан PIN.'});
+$('#pinForm').addEventListener('submit',e=>{e.preventDefault();if($('#pin').value===String(PIN)){$('#pinForm').hidden=true;$('#panel').hidden=false;renderPanel()}else $('#pinMsg').textContent='Погрешан PIN.'});
 function renderPanel(){
-  $('#pLegend').innerHTML=legendHTML(counts(),true)+`<span>Тренировок <b>${st.sess}</b></span>`;
+  $('#pLegend').innerHTML=`<span>Ученик <b>${esc(NAME||'—')}</b></span>`+legendHTML(counts(),true)+`<span>Тренировок <b>${st.sess}</b></span>`;
   const mark={c:'+',u:'?',w:'−'};
   $('#ptable').innerHTML=bank.map(q=>{const r=st.q[q.id];return `<tr><td>${esc(q.id)}</td><td>${esc(q.topic)}</td><td>${esc(q.text)}</td><td>${SL[status(q.id)]}</td><td>${r?esc([...r.h].map(c=>mark[c]||'').join(' ')):''}</td></tr>`}).join('');
   $('#demoBank').hidden=bankSource!=='local';
@@ -457,12 +474,20 @@ $('#reset').addEventListener('click',()=>{$('#resetAsk').hidden=false});
 $('#resetNo').addEventListener('click',()=>{$('#resetAsk').hidden=true});
 $('#resetYes').addEventListener('click',()=>{st.q={};st.sess=0;save();$('#resetAsk').hidden=true;$('#progMsg').textContent='Прогресс сброшен.';renderPanel()});
 $('#restore').addEventListener('click',()=>{
-  try{const o=JSON.parse($('#restoreIn').value);if(!o||typeof o.q!=='object')throw 0;st=Object.assign({sess:0,q:{},pin:st.pin},o);save();$('#restoreIn').value='';$('#progMsg').textContent='Прогресс восстановлен.';renderPanel()}
+  try{const o=JSON.parse($('#restoreIn').value);if(!o||typeof o.q!=='object')throw 0;st=Object.assign({sess:0,q:{}},o);save();$('#restoreIn').value='';$('#progMsg').textContent='Прогресс восстановлен.';renderPanel()}
   catch(e){$('#progMsg').textContent='Это не похоже на резервную копию.'}
 });
-$('#setPin').addEventListener('click',()=>{const v=$('#newPin').value.trim();if(v.length<4){$('#pinSetMsg').textContent='Минимум 4 символа.';return}st.pin=v;save();$('#newPin').value='';$('#pinSetMsg').textContent='PIN сохранён.'});
+$('#setPin').addEventListener('click',()=>{const v=$('#newPin').value.trim();if(v.length<4){$('#pinSetMsg').textContent='Минимум 4 символа.';return}PIN=v;S.set(KP,v);$('#newPin').value='';$('#pinSetMsg').textContent='PIN сохранён.'});
 
 renderHome();
+$('#nameForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const n=$('#nameIn').value.replace(/\s+/g,' ').trim();
+  if(!n){$('#nameMsg').textContent='Упиши своје име.';return}
+  $('#nameMsg').textContent='';setName((n[0].toUpperCase()+n.slice(1)).slice(0,30));
+});
+$('#changeName').addEventListener('click',()=>{$('#nameIn').value='';show('nameScr');$('#nameIn').focus()});
+if(!NAME)show('nameScr');
 initBank().then(()=>{loading=false;renderHome();flush()});
 }
 </script>
