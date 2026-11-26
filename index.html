@@ -311,8 +311,11 @@ function pick(n){
   for(const qs of byF.values()){
     const seen=qs.map(q=>status(q.id)).filter(s=>s!=='new').sort((a,b)=>rank[a]-rank[b]);
     const w=seen[0];
-    const cat=!w?'fresh':(w==='wrong'||w==='unsure')?'weak':(w==='learned'&&seen.length===qs.length)?'learned':'check';
-    const choice=shuffle(qs).sort((a,b)=>lastOf(a)-lastOf(b))[0];
+    const weak=w==='wrong'||w==='unsure';
+    /* факт, у которого есть ещё ни разу не заданный вопрос (вторая формулировка), идёт вместе с новыми */
+    const cat=!w?'fresh':weak?'weak':seen.length<qs.length?'fresh':w==='learned'?'learned':'check';
+    const isNew=q=>status(q.id)==='new'?0:1;
+    const choice=shuffle(qs).sort((a,b)=>(isNew(a)-isNew(b))||(lastOf(a)-lastOf(b)))[0];
     P[cat].push({q:choice,w,last:Math.max(...qs.map(lastOf))});
   }
   P.weak=shuffle(P.weak).sort((a,b)=>(rank[a.w]-rank[b.w])||(a.last-b.last));
